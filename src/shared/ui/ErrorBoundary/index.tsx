@@ -3,7 +3,7 @@ import React, { Component, ReactNode } from 'react';
 import serverDown512 from '../../../assets/images/server-down-512.png';
 import serverDown360 from '../../../assets/images/server-down-360.png';
 
-import Button from '../Button';
+import { Button } from '../Button';
 
 import './index.css';
 
@@ -44,10 +44,7 @@ class ErrorBoundary extends Component<
             <source srcSet={serverDown360} media="(min-width: 540px)" />
             <img src={serverDown360} alt="Server error" />
           </picture>
-          <Button
-            buttonContent="Fix everything"
-            onClick={this.handleFixButtonClick}
-          />
+          <Button onClick={this.handleFixButtonClick}>Fix everything</Button>
         </div>
       );
     }

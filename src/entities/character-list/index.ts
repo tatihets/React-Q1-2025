@@ -1,1 +1,1 @@
-export { default } from './ui';
+export { CharacterList as default } from './ui';

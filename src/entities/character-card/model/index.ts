@@ -2,7 +2,7 @@ export type Character = {
   name: string;
   image: string;
   status: string;
-  id?: number;
+  id: number;
   gender?: string;
   species?: string;
 };

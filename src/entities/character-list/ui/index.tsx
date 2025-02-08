@@ -1,29 +1,31 @@
-import { PureComponent } from 'react';
+import { Fragment } from 'react';
 
 import { Character } from '../../character-card/model';
 import CharacterCard from '../../character-card';
 
+import notFoundImg360 from '../../../assets/images/not-found-360.png';
+import notFoundImg256 from '../../../assets/images/not-found-256.png';
+
 import './index.css';
 
-interface CharacterListProps {
+type Characters = {
   characters: Character[];
-}
+};
 
-class CardList extends PureComponent<CharacterListProps> {
-  render() {
-    const { characters } = this.props;
-    return (
+export const CharacterList = ({ characters }: Characters) => (
+  <Fragment>
+    {characters.length ? (
       <div className="results">
         {characters.map((character, index) => (
-          <CharacterCard
-            key={index}
-            name={character.name}
-            image={character.image}
-            status={character.status}
-          />
+          <CharacterCard key={index} id={character.id} />
         ))}
       </div>
-    );
-  }
-}
-export default CardList;
+    ) : (
+      <picture>
+        <source srcSet={notFoundImg360} media="(min-width: 768px)" />
+        <source srcSet={notFoundImg256} media="(min-width: 540px)" />
+        <img src={notFoundImg360} alt="Not found items" />
+      </picture>
+    )}
+  </Fragment>
+);

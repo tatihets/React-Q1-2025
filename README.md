@@ -41,4 +41,4 @@ This is a React project that uses Vite as the development tool and TypeScript fo
 
 ## API Integration
 
-This project uses the Rick and Morty API https://rickandmortyapi.com/api to fetch characters. The data is fetched based on a search term entered by the user.
+This project uses the Rick and Morty API https://rickandmortyapi.com/documentation to fetch characters. The data is fetched based on a search term entered by the user.

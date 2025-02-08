@@ -1,1 +1,1 @@
-export { default } from './ui';
+export { App as default } from './ui';

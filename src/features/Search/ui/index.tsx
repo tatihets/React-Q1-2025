@@ -1,6 +1,4 @@
-import { Component } from 'react';
-
-import Button from '../../../shared/ui/Button';
+import { Button } from '../../../shared/ui';
 
 import './index.css';
 
@@ -10,22 +8,18 @@ interface SearchProps {
   onSearchTermChange: (term: string) => void;
 }
 
-class Search extends Component<SearchProps> {
-  render() {
-    return (
-      <div className="search">
-        <input
-          type="text"
-          value={this.props.searchTerm}
-          onChange={(event) =>
-            this.props.onSearchTermChange(event.target.value)
-          }
-          placeholder="Search..."
-        />
-        <Button onClick={this.props.onSearch} buttonContent="Search" />
-      </div>
-    );
-  }
-}
-
-export default Search;
+export const Search = ({
+  searchTerm,
+  onSearchTermChange,
+  onSearch,
+}: SearchProps) => (
+  <div className="search">
+    <input
+      type="text"
+      value={searchTerm}
+      onChange={(event) => onSearchTermChange(event.target.value)}
+      placeholder="Search..."
+    />
+    <Button onClick={onSearch}>Search</Button>
+  </div>
+);
