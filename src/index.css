@@ -1,73 +1,23 @@
-.spinner {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
-  width: 3rem;
-  height: 3rem;
-  animation: spin 2s linear infinite;
-  margin: 0 auto;
+* {
+  font-family: 'Proxima Nova', Arial, sans-serif;
 }
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-.app {
-  font-family: Arial, sans-serif;
-  padding: 2rem;
-  max-width: 50rem;
-  margin: 0 auto;
-}
-.search {
-  display: flex;
-  flex-direction: column;
 
-  align-items: center;
-  margin-bottom: 3rem;
-  input {
-    padding: 0.625rem;
-    width: 80%;
-    max-width: 25rem;
-  }
-  button {
-    padding: 0.625rem;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    margin-top: 1rem;
-    &:hover {
-      background-color: #2980b9;
-    }
-  }
+html {
+  height: 100%;
 }
-.main {
-  text-align: center;
-}
-.error-message {
-  color: red;
-  font-size: 1.5rem;
-  margin-top: 2rem;
-}
-.results {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;
-  justify-items: center;
-  margin-top: 2rem;
-}
-.card {
-  background: #f8f8f8;
-  padding: 1rem;
-  border-radius: 8px;
 
-  width: 200px;
-  text-align: center;
+html, body, h1 {
+  margin: 0;
+  padding: 0;
 }
-.card h3 {
-  font-size: 1.2rem;
-  color: #333;
+
+h1 span, h2 span, h3 span, h4 span, h5 span, h6 span {
+  border-bottom: 1px solid #C0C0C0;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
 }

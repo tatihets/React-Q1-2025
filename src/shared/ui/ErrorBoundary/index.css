@@ -1,0 +1,10 @@
+.error-boundary {
+    align-self: center;
+    text-align: center;
+}
+  
+  @media (max-width: 420px) {
+    .error-boundary {
+      font-size: 0.8rem;
+    }
+  }
