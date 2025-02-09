@@ -36,10 +36,7 @@ describe('Character details entity', () => {
       ).toBeInTheDocument();
       expect(screen.getByText(`Type: ${character.type}`)).toBeInTheDocument();
       expect(screen.getByRole('button')).toBeInTheDocument();
-      expect(screen.getByRole('img')).toHaveAttribute(
-        'src',
-        'https://example.com/image.jpg'
-      );
+      expect(screen.getByRole('img')).toHaveAttribute('src', character.image);
     });
   });
 
