@@ -10,14 +10,21 @@ import './index.css';
 
 type Characters = {
   characters: Character[];
+  onCardClick: (id: number) => void;
 };
 
-export const CharacterList = ({ characters }: Characters) => (
+export const CharacterList = ({ characters, onCardClick }: Characters) => (
   <Fragment>
     {characters.length ? (
       <div className="results">
-        {characters.map((character, index) => (
-          <CharacterCard key={index} id={character.id} />
+        {characters.map(({ id, name, image }, index) => (
+          <CharacterCard
+            key={index}
+            id={id}
+            name={name}
+            image={image}
+            onCardClick={onCardClick}
+          />
         ))}
       </div>
     ) : (

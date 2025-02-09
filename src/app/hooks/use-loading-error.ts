@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { LoadingErrorContext } from '../providers/LoadingErrorProvider';
+import { LoadingErrorContext } from '../providers/LoadingErrorProvider/LoadingErrorProvider';
 
 export const useLoadingError = () => {
   const context = useContext(LoadingErrorContext);

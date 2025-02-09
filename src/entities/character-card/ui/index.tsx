@@ -1,46 +1,35 @@
-import { useEffect, useState } from 'react';
+import { MouseEvent } from 'react';
+import { useParams } from 'react-router-dom';
 import { Character } from '../model';
-
-import { useLoadingError } from '../../../app/hooks/use-loading-error';
-import { fetchCharacter } from '../api/fetch-character';
 
 import './index.css';
 
-type CharacterCardProps = {
-  id: number;
+type CharacterCardProps = Character & {
+  onCardClick: (id: number) => void;
 };
 
-export const CharacterCard = ({ id }: CharacterCardProps) => {
-  const [character, setCharacter] = useState<Character | null>(null);
-  const { loading, error, setLoading, setError } = useLoadingError();
+export const CharacterCard = ({
+  id,
+  name,
+  image,
+  onCardClick,
+}: CharacterCardProps) => {
+  const params = useParams();
 
-  useEffect(() => {
-    setLoading(true);
-    try {
-      const fetchData = async () => {
-        const data = (await fetchCharacter(id)) as Character;
-        setCharacter(data);
-        setLoading(false);
-      };
-      fetchData();
-    } catch (err: unknown) {
-      const { message } = err as Record<string, string>;
-      setLoading(false);
-      setError(message);
+  const selectedCharacterId = params.id;
+
+  const handleCardClick = (event: MouseEvent) => {
+    if (!selectedCharacterId) {
+      event.stopPropagation();
     }
-  }, [id]);
-
+    onCardClick(id);
+  };
   return (
-    !loading &&
-    !error &&
-    character && (
-      <div className="card">
-        <img src={character.image} alt="card image" />
-        <div>
-          <h3>{character.name}</h3>
-          <p>Status: {character.status}</p>
-        </div>
+    <div className="card" key={id} onClick={handleCardClick}>
+      <img src={image} alt="card image" />
+      <div>
+        <h3>{name}</h3>
       </div>
-    )
+    </div>
   );
 };

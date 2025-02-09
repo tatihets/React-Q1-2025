@@ -6,11 +6,6 @@
     text-align: center;
   }
 
-.search-content {
-  align-content: center;
-  justify-items: center;
-}
-
 .error-message {
     color: red;
     font-size: 1.5rem;

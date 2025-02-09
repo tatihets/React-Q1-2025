@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode } from 'react';
-import { Spinner } from '../../shared/ui';
+import { Spinner } from '../../../shared/ui';
 
 type LoadingErrorContextType = {
   loading: boolean;
@@ -19,7 +19,7 @@ export const LoadingErrorContext = createContext<
 export const LoadingErrorProvider = ({
   children,
 }: LoadingErrorProviderProps) => {
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   return (

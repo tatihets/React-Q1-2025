@@ -1,18 +1,41 @@
-import { LoadingErrorProvider } from '../providers/LoadingErrorProvider';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import { LoadingErrorProvider } from '../providers/LoadingErrorProvider/LoadingErrorProvider';
 import { ErrorBoundary } from '../../shared/ui';
+import NotFound from '../../pages/notFound';
 import Main from '../../pages/main';
+import CharacterDetail from '../../entities/character-details';
 
 import './index.css';
 
-export const App = () => (
-  <div className="app">
-    <ErrorBoundary>
-      <header>
-        <h1>Search Rick and Morty characters</h1>
-      </header>
-      <LoadingErrorProvider>
-        <Main />
-      </LoadingErrorProvider>
-    </ErrorBoundary>
-  </div>
-);
+export const App = () => {
+  return (
+    <Router>
+      <div className="app">
+        <ErrorBoundary>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <LoadingErrorProvider>
+                  <Main />
+                </LoadingErrorProvider>
+              }
+            >
+              <Route
+                path="character/:id"
+                element={
+                  <LoadingErrorProvider>
+                    <CharacterDetail />
+                  </LoadingErrorProvider>
+                }
+              />
+            </Route>
+            <Route path="/not-found" element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </ErrorBoundary>
+      </div>
+    </Router>
+  );
+};

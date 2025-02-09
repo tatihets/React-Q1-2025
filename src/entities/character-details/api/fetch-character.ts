@@ -1,4 +1,4 @@
-import { Character } from '../model';
+import { Character } from '../../character-card/model';
 
 const API_BASE_URL = 'https://rickandmortyapi.com/api/character';
 

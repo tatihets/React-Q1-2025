@@ -1,7 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import CharacterList from '../../../entities/character-list';
+import { useState, useEffect, useCallback, Fragment } from 'react';
+
 import { Character } from '../../../entities/character-card/model';
+
 import Search from '../../../features/Search';
 
 import { fetchCharacters } from '../../../shared/api/characters-list';
@@ -9,6 +11,7 @@ import useLocalStorage from '../../../app/hooks/use-local-storage';
 import { useLoadingError } from '../../../app/hooks/use-loading-error';
 
 import './index.css';
+import { Layout } from '../../../features/Layout/ui';
 
 // type LoadingState = {
 //   status: 'loading';
@@ -31,6 +34,7 @@ export const Main = () => {
   const [searchTerm, setSearchTerm] = useState<string>(savedTerm);
   const { loading, error, setLoading, setError } = useLoadingError();
   const [characters, setCharacters] = useState<Character[]>([]);
+  const navigate = useNavigate();
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -51,18 +55,26 @@ export const Main = () => {
     fetchData();
   }, []);
 
+  const handleItemClick = (id: number) => {
+    console.log('CLICKED');
+    navigate(`character/${id}`);
+  };
+
   return (
-    <section className="main">
-      <Search
-        searchTerm={searchTerm}
-        onSearch={fetchData}
-        onSearchTermChange={(value: string) => setSearchTerm(value)}
-      />
-      {!loading && !error && (
-        <div className="search-content">
-          <CharacterList characters={characters} />
-        </div>
-      )}
-    </section>
+    <Fragment>
+      <header>
+        <h1>Search Rick and Morty characters</h1>
+      </header>
+      <section className="main">
+        <Search
+          searchTerm={searchTerm}
+          onSearch={fetchData}
+          onSearchTermChange={(value: string) => setSearchTerm(value)}
+        />
+        {!loading && !error && (
+          <Layout characters={characters} onCardClick={handleItemClick} />
+        )}
+      </section>
+    </Fragment>
   );
 };
