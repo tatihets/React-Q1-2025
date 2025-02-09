@@ -1,0 +1,11 @@
+.card {
+  background: #d6e8fc;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: left;
+
+  h3 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+}
