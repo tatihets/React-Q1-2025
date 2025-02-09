@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 interface PaginationUIProps {
   currentPage: number;
@@ -7,12 +7,12 @@ interface PaginationUIProps {
   children: ReactNode;
 }
 
-export const Pagination: FC<PaginationUIProps> = ({
+export const Pagination = ({
   currentPage,
   totalPages,
   onPageChange,
   children,
-}) => {
+}: PaginationUIProps) => {
   const handlePrevious = () => {
     if (currentPage > 1) onPageChange(currentPage - 1);
   };
