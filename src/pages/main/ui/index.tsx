@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom';
-
 import { useState, useEffect, useCallback, Fragment } from 'react';
 
 import { Character } from '../../../entities/character-card/model';
@@ -12,6 +10,8 @@ import { useLoadingError } from '../../../app/hooks/use-loading-error';
 
 import './index.css';
 import { Layout } from '../../../features/Layout/ui';
+import { useNavigate, useParams } from 'react-router-dom';
+import Pagination from '../../../features/Pagination';
 
 // type LoadingState = {
 //   status: 'loading';
@@ -30,34 +30,39 @@ import { Layout } from '../../../features/Layout/ui';
 // type State = LoadingState | CharactersState | ErrorState;
 
 export const Main = () => {
+  const { page: urlPage } = useParams();
   const [savedTerm, saveToLC] = useLocalStorage<string>('searchTerm', '');
   const [searchTerm, setSearchTerm] = useState<string>(savedTerm);
   const { loading, error, setLoading, setError } = useLoadingError();
   const [characters, setCharacters] = useState<Character[]>([]);
+  const [page, setPage] = useState<number>(Number(urlPage) || 1);
+  const [totalPages, setTotalPages] = useState<number>(Number(urlPage) || 1);
   const navigate = useNavigate();
 
   const fetchData = useCallback(async () => {
     setLoading(true);
 
     try {
-      const response = await fetchCharacters(searchTerm);
-      setCharacters(response);
-      setLoading(false);
+      const response = await fetchCharacters(searchTerm, page);
+      setCharacters(response.results);
       saveToLC(searchTerm);
+      setTotalPages(response.info.pages);
     } catch (err: unknown) {
       const { message } = err as Record<string, string>;
       setLoading(false);
       setError(message);
+    } finally {
+      setLoading(false);
     }
-  }, [searchTerm]);
+  }, [page, searchTerm]);
 
   useEffect(() => {
+    navigate(`/?page=${page}`);
     fetchData();
-  }, []);
+  }, [page]);
 
-  const handleItemClick = (id: number) => {
-    console.log('CLICKED');
-    navigate(`character/${id}`);
+  const handlePageChange = (page: number) => {
+    setPage(page);
   };
 
   return (
@@ -72,7 +77,13 @@ export const Main = () => {
           onSearchTermChange={(value: string) => setSearchTerm(value)}
         />
         {!loading && !error && (
-          <Layout characters={characters} onCardClick={handleItemClick} />
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          >
+            <Layout characters={characters} />
+          </Pagination>
         )}
       </section>
     </Fragment>

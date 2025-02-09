@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { useEffect, useState } from 'react';
 import { CharacterDetails } from '../model';
@@ -14,7 +14,8 @@ export const CharacterDetail = () => {
   const [character, setCharacter] = useState<CharacterDetails | null>(null);
   const { loading, error, setLoading, setError } = useLoadingError();
   const navigate = useNavigate();
-  console.log('DETAILLLLLLLLLLLLLL');
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
 
   useEffect(() => {
     setLoading(true);
@@ -23,8 +24,6 @@ export const CharacterDetail = () => {
         if (id) {
           const data = (await fetchCharacter(Number(id))) as CharacterDetails;
           setCharacter(data);
-        } else {
-          console.log('ERROORRR');
         }
       };
       fetchData();
@@ -37,7 +36,7 @@ export const CharacterDetail = () => {
   }, [id]);
 
   const handleCloseDetailSection = () => {
-    navigate(`/`);
+    navigate(`/?page=${searchParams.get('page')}`);
   };
 
   return (

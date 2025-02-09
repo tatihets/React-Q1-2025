@@ -1,28 +1,24 @@
 import { MouseEvent } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Character } from '../model';
 
 import './index.css';
 
-type CharacterCardProps = Character & {
-  onCardClick: (id: number) => void;
-};
-
-export const CharacterCard = ({
-  id,
-  name,
-  image,
-  onCardClick,
-}: CharacterCardProps) => {
+export const CharacterCard = ({ id, name, image }: Character) => {
+  const navigate = useNavigate();
   const params = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
 
   const selectedCharacterId = params.id;
 
   const handleCardClick = (event: MouseEvent) => {
     if (!selectedCharacterId) {
       event.stopPropagation();
+      navigate(`/characters/${id}?page=${searchParams.get('page')}`);
+    } else {
+      navigate(`/?page=${searchParams.get('page')}`);
     }
-    onCardClick(id);
   };
   return (
     <div className="card" key={id} onClick={handleCardClick}>

@@ -23,7 +23,7 @@ export const App = () => {
               }
             >
               <Route
-                path="character/:id"
+                path="characters/:id"
                 element={
                   <LoadingErrorProvider>
                     <CharacterDetail />
