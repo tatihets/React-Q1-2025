@@ -19,37 +19,7 @@ vi.mock('react-router-dom', () => ({
   ),
 }));
 
-global.fetch = vi.fn(
-  () =>
-    Promise.resolve({
-      ok: true,
-      status: 200,
-      statusText: 'OK',
-      headers: {
-        get: vi.fn().mockReturnValue('application/json'),
-      },
-      json: () =>
-        Promise.resolve({
-          id: 1,
-          name: 'Morty Smith',
-          status: 'Alive',
-          species: 'Human',
-          type: 'type',
-          gender: 'Male',
-          origin: {
-            name: 'Earth',
-          },
-          location: {
-            name: 'Earth',
-          },
-          image: 'https://rickandmortyapi.com/api/character/avatar/2.jpeg',
-          url: 'https://rickandmortyapi.com/api/character/2',
-          created: '2017-11-04T18:50:21.651Z',
-        }),
-    } as unknown as Response) // Type assertion to ensure it conforms to the Response type
-);
-
-describe('Character card', () => {
+describe('Character card entity', () => {
   test('should render card correctly', () => {
     render(
       <BrowserRouter>
@@ -60,7 +30,7 @@ describe('Character card', () => {
     expect(screen.getByText('test')).toBeInTheDocument();
   });
 
-  test('clicking card navigates to details characters path if there is no id in params', async () => {
+  test('should navigate to details of character after clicking the card if there is no id in params', async () => {
     const mockNavigate = vi.fn();
 
     (useNavigate as Mock).mockReturnValue(mockNavigate);
@@ -77,7 +47,7 @@ describe('Character card', () => {
     expect(mockNavigate).toHaveBeenCalledWith(`/characters/${1}?page=2`);
   });
 
-  test('clicking card navigates to details characters path if there is id in params', async () => {
+  test('should navigate to details of character after clicking the card if there is id in params', async () => {
     (useParams as Mock).mockImplementationOnce(
       vi.fn(() => ({
         id: '1',

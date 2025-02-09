@@ -17,7 +17,7 @@ export default defineConfig({
         '**/node_modules/**',
         '**/*.test.tsx',
         'src/setup.ts',
-        'src/app/*',
+        'src/app/ui/index.tsx',
       ],
     },
   },

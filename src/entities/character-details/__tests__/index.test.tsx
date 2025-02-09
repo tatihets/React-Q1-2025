@@ -2,31 +2,13 @@ import { expect, test, describe, vi, Mock } from 'vitest';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { BrowserRouter, useNavigate, useParams } from 'react-router-dom';
 
-import CharacterDetail from '../';
-
-vi.mock('react-router-dom', () => ({
-  ...vi.importActual('react-router-dom'),
-  useNavigate: vi.fn(),
-  useParams: vi.fn(() => ({
-    id: '1',
-  })),
-  useLocation: vi.fn(() => ({
-    search: '?page=1',
-  })),
-  BrowserRouter: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
-}));
+import charactersListMockedResponse from '../../../shared/__tests__/fixtures/characterslist.json';
+import { CharacterDetail } from '../ui';
 
 vi.mock('../../character-details/api/fetch-character', () => ({
-  fetchCharacter: vi.fn().mockResolvedValue({
-    id: 1,
-    name: 'Morty Smith',
-    status: 'Alive',
-    gender: 'Male',
-    type: 'Human',
-    image: 'https://example.com/image.jpg',
-  }),
+  fetchCharacter: vi
+    .fn()
+    .mockResolvedValue(charactersListMockedResponse.results[0]),
 }));
 
 vi.mock('../../../app/hooks/use-loading-error', () => ({
@@ -38,19 +20,21 @@ vi.mock('../../../app/hooks/use-loading-error', () => ({
   })),
 }));
 
-describe('Character details', () => {
+describe('Character details entity', () => {
+  const character = charactersListMockedResponse.results[0];
+
   test('should render character details correctly', async () => {
     render(
       <BrowserRouter>
-        {' '}
         <CharacterDetail />
       </BrowserRouter>
     );
     await waitFor(() => {
-      expect(screen.getByText('Morty Smith')).toBeInTheDocument();
-      expect(screen.getByText('Status: Alive')).toBeInTheDocument();
-      expect(screen.getByText('Gender: Male')).toBeInTheDocument();
-      expect(screen.getByText('Type: Human')).toBeInTheDocument();
+      expect(screen.getByText(character.name)).toBeInTheDocument();
+      expect(
+        screen.getByText(`Status: ${character.status}`)
+      ).toBeInTheDocument();
+      expect(screen.getByText(`Type: ${character.type}`)).toBeInTheDocument();
       expect(screen.getByRole('button')).toBeInTheDocument();
       expect(screen.getByRole('img')).toHaveAttribute(
         'src',

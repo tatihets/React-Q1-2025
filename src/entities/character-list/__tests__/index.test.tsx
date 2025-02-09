@@ -2,15 +2,14 @@ import { expect, test, describe } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
-import CharacterList from '../';
 
-import charactersListMockedResponse from './fixtures/characterslist.json';
+import { CharacterList } from '../ui';
+import charactersListMockedResponse from '../../../shared/__tests__/fixtures/characterslist.json';
 
-describe('Characters List', () => {
+describe('Characters list entity', () => {
   test('should render the specified number of characters', async () => {
     render(
       <BrowserRouter>
-        {' '}
         <CharacterList characters={charactersListMockedResponse.results} />
       </BrowserRouter>
     );

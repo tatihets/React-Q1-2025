@@ -28,7 +28,11 @@ export const Layout = ({ characters }: LayoutProps) => {
 
   return (
     <div className="layout">
-      <div className="left-section" onClick={onLayoutClick}>
+      <div
+        className="left-section"
+        onClick={onLayoutClick}
+        data-testid="layout"
+      >
         <CharacterList characters={characters} />
       </div>
       <div className={`right-section ${selectedCharacterId && 'open'}`}>
