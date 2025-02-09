@@ -49,7 +49,7 @@ export const CharacterDetail = () => {
           <img src={character.image} alt="card image" />
           <h3>{character.name}</h3>
           <p>Status: {character.status}</p>
-          <p>Status: {character.gender}</p>
+          <p>Gender: {character.gender}</p>
           <p>Type: {character.type}</p>
         </div>
       </div>

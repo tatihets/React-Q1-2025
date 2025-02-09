@@ -8,7 +8,6 @@ export const fetchCharacter = async (
   try {
     const url = id ? `${API_BASE_URL}/${id}` : `${API_BASE_URL}`;
     const response = await fetch(url);
-    console.log(response);
     if (response.status === 404) {
       return {};
     }

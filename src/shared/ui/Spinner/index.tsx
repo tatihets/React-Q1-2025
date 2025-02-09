@@ -1,3 +1,5 @@
 import './index.css';
 
-export const Spinner = () => <div className="spinner"></div>;
+export const Spinner = () => (
+  <div data-testid="spinner" className="spinner"></div>
+);
