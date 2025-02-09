@@ -8,8 +8,6 @@ import {
 import CharacterList from '../../../entities/character-list';
 import { Character } from '../../../entities/character-card/model';
 
-import './index.css';
-
 interface LayoutProps {
   characters: Character[];
 }

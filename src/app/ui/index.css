@@ -5,4 +5,10 @@
     gap: 3rem;
     margin: 3rem;
     color: #333;
+  
+    .error-message {
+      color: red;
+      font-size: 1.5rem;
+      margin-top: 2rem;
+  }
   }

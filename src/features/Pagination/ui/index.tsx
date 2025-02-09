@@ -1,5 +1,4 @@
 import { FC, ReactNode } from 'react';
-import './index.css';
 
 interface PaginationUIProps {
   currentPage: number;
@@ -23,17 +22,21 @@ export const Pagination: FC<PaginationUIProps> = ({
   };
   return (
     <div className="pagination">
-      <button
-        onClick={handlePrevious}
-        className="previous"
-        disabled={currentPage === 1}
-      />
+      {totalPages !== 1 && (
+        <button
+          onClick={handlePrevious}
+          className="previous"
+          disabled={currentPage === 1}
+        />
+      )}
       {children}
-      <button
-        onClick={handleNext}
-        className="next"
-        disabled={currentPage === totalPages}
-      />
+      {totalPages !== 1 && (
+        <button
+          onClick={handleNext}
+          className="next"
+          disabled={currentPage === totalPages}
+        />
+      )}
     </div>
   );
 };

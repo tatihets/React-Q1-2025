@@ -12,9 +12,8 @@ type LoadingErrorProviderProps = {
   children: ReactNode;
 };
 
-export const LoadingErrorContext = createContext<
-  LoadingErrorContextType | undefined
->(undefined);
+export const LoadingErrorContext =
+  createContext<LoadingErrorContextType | null>(null);
 
 export const LoadingErrorProvider = ({
   children,

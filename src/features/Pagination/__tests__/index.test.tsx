@@ -38,7 +38,7 @@ describe('Pagination feature', () => {
     expect(mockOnPageChange).toHaveBeenCalledWith(2);
   });
 
-  test('should disable next button on the last page', () => {
+  test('should hide next button on the last page', () => {
     render(
       <Pagination
         currentPage={5}

@@ -6,8 +6,6 @@ import NotFound from '../../pages/notFound';
 import Main from '../../pages/main';
 import CharacterDetail from '../../entities/character-details';
 
-import './index.css';
-
 export const App = () => {
   return (
     <Router>
@@ -31,7 +29,6 @@ export const App = () => {
                 }
               />
             </Route>
-            <Route path="/not-found" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </ErrorBoundary>

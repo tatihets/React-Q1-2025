@@ -1,8 +1,7 @@
 import { MouseEvent } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Character } from '../model';
 
-import './index.css';
+import { Character } from '../model';
 
 export const CharacterCard = ({ id, name, image }: Character) => {
   const navigate = useNavigate();

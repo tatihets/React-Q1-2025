@@ -1,5 +1,4 @@
 import NotFoundImg from '../../../assets/images/page-not-found.png';
-import './index.css';
 
 export const NotFound = () => {
   return (

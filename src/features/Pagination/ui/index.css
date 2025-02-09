@@ -1,10 +1,10 @@
 .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .pagination .previous,.next {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+  .previous,
+  .next {
     position: fixed;
     top: 60%;
     display: flex;
@@ -15,7 +15,7 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    &::before{
+    &::before {
       content: '';
       width: 0;
       height: 0;
@@ -24,27 +24,21 @@
       position: absolute;
     }
   }
-
-  .pagination .previous {
-    left:0;
+  .previous {
+    left: 0;
     &::before {
       border-right: 30px solid #3498db;
     }
-    &:hover {
-      border-right-color: #2980b9;
-    }
   }
-  .pagination .next {
-    right:0;
-    &::before{
+  .next {
+    right: 0;
+    &::before {
       border-left: 30px solid #3498db;
     }
-    &:hover {
-      border-left-color: #2980b9;
-    }
   }
-  
-  .pagination .previous:disabled, .next:disabled {
+  .previous:disabled,
+  .next:disabled {
     cursor: not-allowed;
     opacity: 0.5;
   }
+}

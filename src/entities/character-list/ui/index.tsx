@@ -6,8 +6,6 @@ import CharacterCard from '../../character-card';
 import notFoundImg360 from '../../../assets/images/not-found-360.png';
 import notFoundImg256 from '../../../assets/images/not-found-256.png';
 
-import './index.css';
-
 type Characters = {
   characters: Character[];
 };

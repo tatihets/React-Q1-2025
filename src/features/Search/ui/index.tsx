@@ -1,7 +1,5 @@
 import { Button } from '../../../shared/ui';
 
-import './index.css';
-
 interface SearchProps {
   searchTerm: string;
   onSearch: () => void;

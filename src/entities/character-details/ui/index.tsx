@@ -1,12 +1,9 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-
 import { useEffect, useState } from 'react';
-import { CharacterDetails } from '../model';
 
+import { CharacterDetails } from '../model';
 import { useLoadingError } from '../../../app/hooks/use-loading-error';
 import { fetchCharacter } from '../../character-details/api/fetch-character';
-
-import './index.css';
 import { Button } from '../../../shared/ui';
 
 export const CharacterDetail = () => {
@@ -48,9 +45,9 @@ export const CharacterDetail = () => {
         <div>
           <img src={character.image} alt="card image" />
           <h3>{character.name}</h3>
-          <p>Status: {character.status}</p>
-          <p>Gender: {character.gender}</p>
-          <p>Type: {character.type}</p>
+          {character.status && <p>Status: {character.status}</p>}
+          {character.gender && <p>Gender: {character.gender}</p>}
+          {character.type && <p>Type: {character.type}</p>}
         </div>
       </div>
     )
