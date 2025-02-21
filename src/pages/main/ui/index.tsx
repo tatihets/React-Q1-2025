@@ -57,9 +57,6 @@ export const Main = () => {
 
   return (
     <Fragment>
-      <header>
-        <h1>Search Rick and Morty characters</h1>
-      </header>
       <section className="main">
         <Search
           searchTerm={searchTerm}
