@@ -1,0 +1,25 @@
+.results {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+  justify-items: center;
+  overflow-y: auto;
+}
+
+@media (max-width: 1490px) {
+  .results {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (max-width: 1140px) {
+  .results {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .results {
+    grid-template-columns: 1fr;
+  }
+}

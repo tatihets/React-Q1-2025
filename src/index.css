@@ -1,0 +1,23 @@
+* {
+  font-family: 'Proxima Nova', Arial, sans-serif;
+}
+
+html {
+  height: 100%;
+}
+
+html, body, h1 {
+  margin: 0;
+  padding: 0;
+}
+
+h1 span, h2 span, h3 span, h4 span, h5 span, h6 span {
+  border-bottom: 1px solid #C0C0C0;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}

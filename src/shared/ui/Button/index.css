@@ -1,0 +1,11 @@
+.button {
+    align-self: flex-end;
+    padding: 0.625rem;
+    background-color: #3498db;
+    color: #fff;
+    border: 1px solid #3498db;
+    cursor: pointer;
+    &:hover {
+      background-color: #2980b9;
+    }
+  }

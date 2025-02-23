@@ -1,0 +1,31 @@
+.layout {
+    display: flex;
+  }
+  
+  .left-section {
+    flex: 1;
+    width: 100%;
+  }
+  
+  .right-section {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 20%;
+    height: 100%;
+    padding: 20px;
+    z-index: 10;
+    background-color: #d6e8fc;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    opacity: 0;
+    transition: all 0.5s ease-in-out; /
+  }
+
+.right-section.open {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  right: 0;
+  opacity: 1; 
+}
