@@ -1,13 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import characterReducer from '../pages/main/reducer';
+import rootReducer from './rootReducer';
 import { charactersApi } from '../shared/api/characters-list';
 
 const store = configureStore({
-  reducer: {
-    character: characterReducer,
-    [charactersApi.reducerPath]: charactersApi.reducer,
-  },
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(charactersApi.middleware),
 });

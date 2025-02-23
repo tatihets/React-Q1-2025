@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Download } from './Download';
 import { Unselect } from './Unselect';
-import { selectSelectedCharacters } from '../../../pages/main/selector';
 import { removeSelectedCharacters } from '../../../pages/main/reducer';
 import { RootState } from '../../../store';
+import { selectSelectedCharacters } from '../selector';
 
 export const FlyoutSetting = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,14 @@ export const FlyoutSetting = () => {
     dispatch(removeSelectedCharacters());
   };
 
-  if (!selectedCharacters) {
+  const selectedCharactersCount =
+    selectedCharacters &&
+    Object.values(selectedCharacters).reduce(
+      (count, arr) => count + arr.length,
+      0
+    );
+
+  if (!selectedCharacters || !selectedCharactersCount) {
     return <></>;
   }
 
@@ -24,11 +31,7 @@ export const FlyoutSetting = () => {
     <div className="flyout">
       <p>
         Selected items on all pages:
-        {selectedCharacters &&
-          Object.values(selectedCharacters).reduce(
-            (count, arr) => count + arr.length,
-            0
-          )}
+        {selectedCharactersCount}
       </p>
 
       <Unselect onClick={handleUnselectClick} />

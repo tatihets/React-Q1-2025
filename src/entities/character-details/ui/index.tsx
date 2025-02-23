@@ -1,30 +1,26 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 
-import { CharacterDetails } from '../model';
-import { fetchCharacter } from '../../character-details/api/fetch-character';
-import { Button } from '../../../shared/ui';
+import { Button, Spinner } from '../../../shared/ui';
+import { useGetCharacterDetailQuery } from '../../../shared/api/characters-list';
+import { Character } from '../../character-card/model';
 
 export const CharacterDetail = () => {
   const { id } = useParams();
-  const [character, setCharacter] = useState<CharacterDetails | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
 
-  useEffect(() => {
-    try {
-      const fetchData = async () => {
-        if (id) {
-          const data = (await fetchCharacter(Number(id))) as CharacterDetails;
-          setCharacter(data);
-        }
-      };
-      fetchData();
-    } catch (err: unknown) {
-    } finally {
-    }
-  }, [id]);
+  const {
+    data: character,
+    isLoading,
+    isFetching,
+    isError,
+    error = {},
+  } = useGetCharacterDetailQuery(id, {
+    skip: !id,
+  });
+
+  const { data: errorData } = error as { data: Character };
 
   const handleCloseDetailSection = () => {
     navigate(`/?page=${searchParams.get('page')}`);
@@ -41,6 +37,10 @@ export const CharacterDetail = () => {
           {character.gender && <p>Gender: {character.gender}</p>}
           {character.type && <p>Type: {character.type}</p>}
         </div>
+        {(isLoading || isFetching) && <Spinner />}
+        {isError && !errorData?.name && (
+          <div className="error-message">{JSON.stringify(errorData)}</div>
+        )}
       </div>
     )
   );

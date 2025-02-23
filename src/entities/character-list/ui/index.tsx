@@ -7,7 +7,7 @@ import notFoundImg360 from '../../../assets/images/not-found-360.png';
 import notFoundImg256 from '../../../assets/images/not-found-256.png';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
-import { selectSelectedCharactersPerPage } from '../../../pages/main/selector';
+import { selectSelectedCharactersPerPage } from '../../../features/FlyoutButtons/selector';
 
 type Characters = {
   characters: Character[];

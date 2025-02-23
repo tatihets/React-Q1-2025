@@ -1,16 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Character } from '../../entities/character-card/model';
 
-interface CharacterState {
-  charactersByPage: { [key: number]: Character[] };
-  selectedCharacters: { [key: number]: number[] } | null;
-  searchTerm: string | null;
+interface SelectedCharacterState {
+  selectedCharacters: { [key: number]: number[] | undefined } | null;
 }
 
-const initialState: CharacterState = {
-  charactersByPage: {},
+const initialState: SelectedCharacterState = {
   selectedCharacters: null,
-  searchTerm: null,
 };
 
 const characterSlice = createSlice({
@@ -42,24 +37,10 @@ const characterSlice = createSlice({
         }
       }
     },
-    setSearchTerm: (state, action: PayloadAction<string>) => {
-      state.searchTerm = action.payload;
-    },
-    setPageCharacters: (
-      state,
-      action: PayloadAction<{ page: number; characters: Character[] }>
-    ) => {
-      const { page, characters } = action.payload;
-      state.charactersByPage[page] = characters;
-    },
   },
 });
 
-export const {
-  setSelectedCharacters,
-  setSearchTerm,
-  setPageCharacters,
-  removeSelectedCharacters,
-} = characterSlice.actions;
+export const { setSelectedCharacters, removeSelectedCharacters } =
+  characterSlice.actions;
 
 export default characterSlice.reducer;

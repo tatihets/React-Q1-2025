@@ -1,20 +1,17 @@
 import { useState, useEffect, Fragment } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Search from '../../../features/Search';
 import Layout from '../../../features/Layout';
 import Pagination from '../../../features/Pagination';
-
 import FlyoutSetting from '../../../features/FlyoutButtons';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  selectSearchTerm,
-  selectCharactersByPage,
-  selectError,
-  selectLoading,
-} from '../selector';
+import { selectSearchTerm, selectCharactersByPage } from '../selector';
 import { Spinner } from '../../../shared/ui';
-import { useGetCharactersQuery } from '../../../shared/api/characters-list';
+import {
+  useGetCharactersQuery,
+  UseGetCharactersError,
+} from '../../../shared/api/characters-list';
 import { setPageCharacters, setSearchTerm } from '../reducer';
 import { RootState } from '../../../store';
 
@@ -32,11 +29,15 @@ export const Main = () => {
   const charactersByPage = useSelector((state: RootState) =>
     selectCharactersByPage(state, page)
   );
-  const loading = useSelector(selectLoading);
-  const error = useSelector(selectError);
   const searchTerm = useSelector(selectSearchTerm);
 
-  const { data: characters } = useGetCharactersQuery(
+  const {
+    data: characters,
+    isLoading,
+    isFetching,
+    isError,
+    error = {},
+  } = useGetCharactersQuery(
     {
       page,
       searchTerm,
@@ -46,17 +47,28 @@ export const Main = () => {
     }
   );
 
+  const { data: errorData } = error as UseGetCharactersError;
+
   useEffect(() => {
-    if (characters) {
-      console.log('AAAAAAAAAAAAAa', characters);
-      dispatch(setPageCharacters({ page, characters: characters.results }));
-      setTotalPages(characters.info.pages);
+    console.log('PAGE CHANGE');
+    if (errorData || characters) {
+      dispatch(
+        setPageCharacters({
+          page,
+          characters: errorData?.results || characters?.results,
+        })
+      );
+      navigate(`/?page=${page}`);
     }
-  }, [characters, dispatch, page, searchTerm]);
+  }, [characters, errorData]);
+
+  useEffect(() => {
+    console.log('ONE_ONE_ONE');
+    setTotalPages(errorData?.info.pages || characters?.info.pages || 1);
+  }, [errorData?.info?.pages, characters?.info.pages]);
 
   const handlePageChange = (page: number) => {
     setPage(page);
-    navigate(`/?page=${page}`);
   };
 
   const handleSearchTermChange = (value: string) => {
@@ -67,17 +79,21 @@ export const Main = () => {
     <Fragment>
       <section className="main">
         <Search onSearch={handleSearchTermChange} />
-        {!loading && !error && charactersByPage.length && (
-          <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          >
-            <Layout characters={charactersByPage} />
-          </Pagination>
+        {!isLoading &&
+          ((isError && errorData?.results) || !isError) &&
+          !isFetching && (
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            >
+              <Layout characters={charactersByPage} />
+            </Pagination>
+          )}
+        {(isLoading || isFetching) && <Spinner />}
+        {isError && !errorData?.results && (
+          <div className="error-message">{JSON.stringify(errorData)}</div>
         )}
-        {loading && <Spinner />}
-        {error && <div className="error-message">{error}</div>}
       </section>
       <FlyoutSetting />
     </Fragment>
