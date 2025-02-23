@@ -1,30 +1,21 @@
 import { expect, test, describe, vi, Mock } from 'vitest';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { BrowserRouter, useNavigate, useParams } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
 import charactersListMockedResponse from '../../../shared/__tests__/fixtures/characterslist.json';
 import { CharacterDetail } from '../ui';
+import store from '../../../store';
 
-vi.mock('../../character-details/api/fetch-character', () => ({
-  fetchCharacter: vi
-    .fn()
-    .mockResolvedValue(charactersListMockedResponse.results[0]),
-}));
-
-vi.mock('../../../app/hooks/use-loading-error', () => ({
-  useLoadingError: vi.fn(() => ({
-    loading: false,
-    error: null,
-    setLoading: vi.fn(),
-    setError: vi.fn(),
-  })),
-}));
+const renderWithProvider = (component: React.ReactNode) => {
+  return render(<Provider store={store}>{component}</Provider>);
+};
 
 describe('Character details entity', () => {
   const character = charactersListMockedResponse.results[0];
 
   test('should render character details correctly', async () => {
-    render(
+    renderWithProvider(
       <BrowserRouter>
         <CharacterDetail />
       </BrowserRouter>
@@ -48,7 +39,7 @@ describe('Character details entity', () => {
     );
     const mockNavigate = vi.fn();
     (useNavigate as Mock).mockReturnValue(mockNavigate);
-    render(
+    renderWithProvider(
       <BrowserRouter>
         {' '}
         <CharacterDetail />

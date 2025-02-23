@@ -5,13 +5,13 @@ type ThemeType = {
   toggleTheme: (isDarkMode: boolean) => void;
 };
 
-type LoadingErrorProviderProps = {
+type ThemeProviderProps = {
   children: ReactNode;
 };
 
 export const ThemeContext = createContext<ThemeType | null>(null);
 
-export const ThemeProvider = ({ children }: LoadingErrorProviderProps) => {
+export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [isDarkMode, setMode] = useState<boolean>(false);
 
   return (

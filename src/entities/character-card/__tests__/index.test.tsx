@@ -1,7 +1,8 @@
 import { expect, test, describe, vi, Mock } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter, useNavigate, useParams } from 'react-router-dom';
-import '@testing-library/jest-dom'; // Import jest-dom matchers
+import { useDispatch } from 'react-redux';
+import '@testing-library/jest-dom';
 
 import CharacterCard from '../';
 
@@ -24,7 +25,12 @@ describe('Character card entity', () => {
     render(
       <BrowserRouter>
         {' '}
-        <CharacterCard id={1} name="test" image="https://test.jpeg" />
+        <CharacterCard
+          id={1}
+          name="test"
+          image="https://test.jpeg"
+          checked={true}
+        />
       </BrowserRouter>
     );
     expect(screen.getByText('test')).toBeInTheDocument();
@@ -37,7 +43,12 @@ describe('Character card entity', () => {
     render(
       <BrowserRouter>
         {' '}
-        <CharacterCard id={1} name="test" image="https://test.jpeg" />
+        <CharacterCard
+          id={1}
+          name="test"
+          image="https://test.jpeg"
+          checked={true}
+        />
       </BrowserRouter>
     );
 
@@ -58,7 +69,12 @@ describe('Character card entity', () => {
     render(
       <BrowserRouter>
         {' '}
-        <CharacterCard id={1} name="test" image="https://test.jpeg" />
+        <CharacterCard
+          id={1}
+          name="test"
+          image="https://test.jpeg"
+          checked={true}
+        />
       </BrowserRouter>
     );
 
@@ -66,5 +82,27 @@ describe('Character card entity', () => {
     fireEvent.click(card);
 
     expect(mockNavigate).toHaveBeenCalledWith(`/?page=2`);
+  });
+
+  test('should dispatch event on checkbox click', async () => {
+    const mockDispatch = vi.fn();
+
+    (useDispatch as unknown as Mock).mockReturnValue(mockDispatch);
+    render(
+      <BrowserRouter>
+        {' '}
+        <CharacterCard
+          id={1}
+          name="test"
+          image="https://test.jpeg"
+          checked={true}
+        />
+      </BrowserRouter>
+    );
+
+    const checkbox = screen.getByRole('checkbox');
+    fireEvent.click(checkbox);
+
+    expect(mockDispatch).toHaveBeenCalled();
   });
 });

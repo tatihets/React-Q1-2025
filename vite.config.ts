@@ -30,6 +30,7 @@ export default defineConfig({
         '**/*.test.tsx',
         'src/setup.ts',
         'src/app/ui/index.tsx',
+        'src/main.tsx',
       ],
     },
   },

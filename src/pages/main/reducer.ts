@@ -7,7 +7,7 @@ export interface CharacterState {
   searchTerm: string | null;
 }
 
-const initialState: CharacterState = {
+export const initialState: CharacterState = {
   charactersByPage: {},
   selectedCharacters: null,
   searchTerm: null,

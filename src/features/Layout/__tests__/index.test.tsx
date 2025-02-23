@@ -2,15 +2,21 @@ import { expect, test, describe, vi, Mock } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter, useNavigate, useParams } from 'react-router-dom';
 import '@testing-library/jest-dom';
+import { Provider } from 'react-redux';
 
 import { Layout } from '../ui';
 import charactersListMockedResponse from '../../../shared/__tests__/fixtures/characterslist.json';
+import store from '../../../store';
+
+const renderWithProvider = (component: React.ReactNode) => {
+  return render(<Provider store={store}>{component}</Provider>);
+};
 
 describe('Layout feature', () => {
   const characters = charactersListMockedResponse.results;
 
   test('should render CharacterList with the passed characters', () => {
-    render(
+    renderWithProvider(
       <BrowserRouter>
         <Layout characters={characters} />
       </BrowserRouter>
@@ -23,7 +29,7 @@ describe('Layout feature', () => {
     const mockNavigate = vi.fn();
 
     (useNavigate as Mock).mockReturnValue(mockNavigate);
-    render(
+    renderWithProvider(
       <BrowserRouter>
         <Layout characters={characters} />
       </BrowserRouter>
@@ -43,7 +49,7 @@ describe('Layout feature', () => {
         id: '',
       }))
     );
-    render(
+    renderWithProvider(
       <BrowserRouter>
         <Layout characters={characters} />
       </BrowserRouter>

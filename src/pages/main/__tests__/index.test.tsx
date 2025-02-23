@@ -1,20 +1,26 @@
 import { expect, test, describe, Mock, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
 import { Main } from '../ui';
 import useLocalStorage from '../../../app/hooks/use-local-storage';
+import store from '../../../store';
+import Theme from '../../../features/Theme';
+import { ThemeProvider } from '../../../app/providers/ThemeProvider/ThemeProvider';
+import { setSearchTerm } from '../reducer';
 
-vi.mock('../../../app/hooks/use-loading-error');
 vi.mock('../../../app/hooks/use-local-storage');
 
+const renderWithProvider = (component: React.ReactNode) => {
+  return render(<Provider store={store}>{component}</Provider>);
+};
+
 describe('Main page', () => {
-  vi.mock('../../../app/hooks/use-loading-error', () => ({
-    useLoadingError: vi.fn(() => ({
-      loading: false,
-      error: null,
-      setLoading: vi.fn(),
-      setError: vi.fn(),
+  vi.mock('../../../app/hooks/use-theme', () => ({
+    useTheme: vi.fn(() => ({
+      isDarkMode: false,
+      setMode: vi.fn(),
     })),
   }));
 
@@ -22,10 +28,15 @@ describe('Main page', () => {
     const mockSaveToLC = vi.fn();
     (useLocalStorage as Mock).mockReturnValue(['', mockSaveToLC]);
 
-    render(
-      <BrowserRouter>
-        <Main />
-      </BrowserRouter>
+    store.dispatch(setSearchTerm('search'));
+
+    renderWithProvider(
+      <ThemeProvider>
+        <BrowserRouter>
+          <Theme />
+          <Main />
+        </BrowserRouter>
+      </ThemeProvider>
     );
 
     await waitFor(() => {

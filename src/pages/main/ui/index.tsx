@@ -50,7 +50,6 @@ export const Main = () => {
   const { data: errorData } = error as UseGetCharactersError;
 
   useEffect(() => {
-    console.log('PAGE CHANGE');
     if (errorData || characters) {
       dispatch(
         setPageCharacters({
@@ -63,7 +62,6 @@ export const Main = () => {
   }, [characters, errorData]);
 
   useEffect(() => {
-    console.log('ONE_ONE_ONE');
     setTotalPages(errorData?.info.pages || characters?.info.pages || 1);
   }, [errorData?.info?.pages, characters?.info.pages]);
 
