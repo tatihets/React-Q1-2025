@@ -1,9 +1,11 @@
+import { useDispatch } from 'react-redux';
 import { Button } from '../../../../shared/ui';
+import { removeSelectedCharacters } from '../../reducer';
 
-interface UnselectProps {
-  onClick: () => void;
-}
-
-export const Unselect = ({ onClick }: UnselectProps) => {
-  return <Button onClick={onClick}>Unselect</Button>;
+export const Unselect = () => {
+  const dispatch = useDispatch();
+  const handleUnselectClick = () => {
+    dispatch(removeSelectedCharacters());
+  };
+  return <Button onClick={handleUnselectClick}>Unselect</Button>;
 };

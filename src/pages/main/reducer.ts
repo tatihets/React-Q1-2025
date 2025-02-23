@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Character } from '../../entities/character-card/model';
 
-interface CharacterState {
+export interface CharacterState {
   charactersByPage: { [key: number]: Character[] };
   selectedCharacters: { [key: number]: number[] } | null;
   searchTerm: string | null;
@@ -50,7 +50,11 @@ const characterSlice = createSlice({
       action: PayloadAction<{ page: number; characters: Character[] }>
     ) => {
       const { page, characters } = action.payload;
-      state.charactersByPage[page] = characters;
+      state.charactersByPage[page] = characters.map(({ id, name, image }) => ({
+        id,
+        name,
+        image,
+      }));
     },
   },
 });

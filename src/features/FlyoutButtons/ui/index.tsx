@@ -1,20 +1,15 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Download } from './Download';
 import { Unselect } from './Unselect';
-import { removeSelectedCharacters } from '../../../pages/main/reducer';
 import { RootState } from '../../../store';
 import { selectSelectedCharacters } from '../selector';
+import { selectCharacters } from '../../../pages/main/selector';
 
 export const FlyoutSetting = () => {
-  const dispatch = useDispatch();
-
   const selectedCharacters = useSelector((state: RootState) =>
     selectSelectedCharacters(state)
   );
-
-  const handleUnselectClick = () => {
-    dispatch(removeSelectedCharacters());
-  };
+  const characters = useSelector(selectCharacters);
 
   const selectedCharactersCount =
     selectedCharacters &&
@@ -34,8 +29,12 @@ export const FlyoutSetting = () => {
         {selectedCharactersCount}
       </p>
 
-      <Unselect onClick={handleUnselectClick} />
-      <Download />
+      <Unselect />
+      <Download
+        ids={selectedCharacters}
+        characters={characters}
+        count={selectedCharactersCount}
+      />
     </div>
   );
 };

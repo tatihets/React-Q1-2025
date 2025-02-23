@@ -6,6 +6,9 @@ export const selectCharactersByPage = createSelector(
   (charactersForPage) => charactersForPage || []
 );
 
+export const selectCharacters = (state: RootState) =>
+  state.characters.charactersByPage;
+
 export const selectSearchTerm = (state: RootState): string | null => {
   return state.characters.searchTerm;
 };
