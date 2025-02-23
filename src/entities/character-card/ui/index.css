@@ -3,9 +3,23 @@
   padding: 1rem;
   border-radius: 8px;
   text-align: left;
+  &:hover {
+    cursor: pointer;
+  }
 
   h3 {
     font-size: 1.2rem;
     text-align: center;
+  }
+
+  input{
+    width: 20px;
+    height: 20px;
+    &:checked {
+      background-color: #3498db;
+    }
+    &:hover {
+      cursor: pointer;
+    }
   }
 }

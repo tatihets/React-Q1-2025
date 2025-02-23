@@ -1,23 +1,25 @@
-import { useState, useEffect, useCallback, Fragment } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-
-import { Character } from '../../../entities/character-card/model';
 
 import Search from '../../../features/Search';
 import Layout from '../../../features/Layout';
 import Pagination from '../../../features/Pagination';
 
-import useLocalStorage from '../../../app/hooks/use-local-storage';
-import { useLoadingError } from '../../../app/hooks/use-loading-error';
-
-import { fetchCharacters } from '../../../shared/api/characters-list';
+import FlyoutSetting from '../../../features/FlyoutButtons';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectSearchTerm,
+  selectCharactersByPage,
+  selectError,
+  selectLoading,
+} from '../selector';
+import { Spinner } from '../../../shared/ui';
+import { useGetCharactersQuery } from '../../../shared/api/characters-list';
+import { setPageCharacters, setSearchTerm } from '../reducer';
+import { RootState } from '../../../store';
 
 export const Main = () => {
   const [searchParams] = useSearchParams();
-  const [savedTerm, saveToLC] = useLocalStorage<string>('searchTerm', '');
-  const [searchTerm, setSearchTerm] = useState<string>(savedTerm);
-  const { loading, error, setLoading, setError } = useLoadingError();
-  const [characters, setCharacters] = useState<Character[]>([]);
   const [page, setPage] = useState<number>(
     Number(searchParams.get('page')) || 1
   );
@@ -25,54 +27,59 @@ export const Main = () => {
     Number(searchParams.get('page')) || 1
   );
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
+  const charactersByPage = useSelector((state: RootState) =>
+    selectCharactersByPage(state, page)
+  );
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
+  const searchTerm = useSelector(selectSearchTerm);
 
-    try {
-      const response = await fetchCharacters(searchTerm, page);
-      setCharacters(response.results);
-      saveToLC(searchTerm);
-      setTotalPages(response.info.pages);
-      if (!response.results.length) {
-        setPage(1);
-      }
-    } catch (err: unknown) {
-      const { message } = err as Record<string, string>;
-      setLoading(false);
-      setError(message);
-    } finally {
-      setLoading(false);
+  const { data: characters } = useGetCharactersQuery(
+    {
+      page,
+      searchTerm,
+    },
+    {
+      skip: searchTerm === null,
     }
-  }, [page, searchTerm]);
+  );
 
   useEffect(() => {
-    navigate(`/?page=${page}`);
-    fetchData();
-  }, [page]);
+    if (characters) {
+      console.log('AAAAAAAAAAAAAa', characters);
+      dispatch(setPageCharacters({ page, characters: characters.results }));
+      setTotalPages(characters.info.pages);
+    }
+  }, [characters, dispatch, page, searchTerm]);
 
   const handlePageChange = (page: number) => {
     setPage(page);
+    navigate(`/?page=${page}`);
+  };
+
+  const handleSearchTermChange = (value: string) => {
+    dispatch(setSearchTerm(value));
   };
 
   return (
     <Fragment>
       <section className="main">
-        <Search
-          searchTerm={searchTerm}
-          onSearch={fetchData}
-          onSearchTermChange={(value: string) => setSearchTerm(value)}
-        />
-        {!loading && !error && (
+        <Search onSearch={handleSearchTermChange} />
+        {!loading && !error && charactersByPage.length && (
           <Pagination
             currentPage={page}
             totalPages={totalPages}
             onPageChange={handlePageChange}
           >
-            <Layout characters={characters} />
+            <Layout characters={charactersByPage} />
           </Pagination>
         )}
+        {loading && <Spinner />}
+        {error && <div className="error-message">{error}</div>}
       </section>
+      <FlyoutSetting />
     </Fragment>
   );
 };
